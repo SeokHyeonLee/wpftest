@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefDataMvvm.Core", "RefDataMvvm.Core\RefDataMvvm.Core.csproj", "{402B72D6-3328-4990-AC14-7690F5E70801}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefDataMvvm.Wpf", "RefDataMvvm.Wpf\RefDataMvvm.Wpf.csproj", "{402B72D6-3328-4990-AC14-7690F5E70802}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefDataMvvm.Tests", "RefDataMvvm.Tests\RefDataMvvm.Tests.csproj", "{402B72D6-3328-4990-AC14-7690F5E70803}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{402B72D6-3328-4990-AC14-7690F5E70801}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70801}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70801}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70801}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70802}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70802}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70802}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70802}.Release|Any CPU.Build.0 = Release|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70803}.Debug|Any CPU.ActiveCfg = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70803}.Debug|Any CPU.Build.0 = Debug|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70803}.Release|Any CPU.ActiveCfg = Release|AnyCPU
+		{402B72D6-3328-4990-AC14-7690F5E70803}.Release|Any CPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,33 @@
+<UserControl x:Class="RefDataMvvm.Wpf.Controls.LoadingSpinner2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root" Width="32" Height="32"
+             Focusable="False" IsTabStop="False" IsHitTestVisible="False"
+             UseLayoutRounding="False" SnapsToDevicePixels="False"
+             AutomationProperties.Name="로딩 중">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="UserControl">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsActivate, RelativeSource={RelativeSource Self}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Viewbox Stretch="Uniform">
+        <Grid Width="64" Height="64" UseLayoutRounding="False" SnapsToDevicePixels="False">
+            <Ellipse Fill="{Binding Background, ElementName=Root}" />
+            <!-- Transform 없이 점의 좌표를 고정한다. Opacity만 애니메이션한다. -->
+            <Canvas x:Name="Dots" Width="64" Height="64"
+                    UseLayoutRounding="False" SnapsToDevicePixels="False" />
+        </Grid>
+    </Viewbox>
+</UserControl>

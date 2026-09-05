@@ -1,0 +1,44 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    <ProjectGuid>{402B72D6-3328-4990-AC14-7690F5E70802}</ProjectGuid>
+    <ProjectTypeGuids>{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RefDataMvvm.Wpf</RootNamespace>
+    <AssemblyName>RefDataMvvm.Wpf</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>7.3</LangVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DebugSymbols Condition="'$(Configuration)' == 'Debug'">true</DebugSymbols>
+    <DebugType Condition="'$(Configuration)' == 'Debug'">full</DebugType>
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <ApplicationDefinition Include="App.xaml"><Generator>MSBuild:Compile</Generator></ApplicationDefinition>
+    <Page Include="MainWindow.xaml"><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="Views\CounterView.xaml"><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="Controls\LoadingSpinner.xaml"><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="Controls\LoadingSpinner2.xaml"><Generator>MSBuild:Compile</Generator></Page>
+    <Compile Include="App.xaml.cs"><DependentUpon>App.xaml</DependentUpon></Compile>
+    <Compile Include="MainWindow.xaml.cs"><DependentUpon>MainWindow.xaml</DependentUpon></Compile>
+    <Compile Include="Views\CounterView.xaml.cs"><DependentUpon>CounterView.xaml</DependentUpon></Compile>
+    <Compile Include="Controls\LoadingSpinner.xaml.cs"><DependentUpon>LoadingSpinner.xaml</DependentUpon></Compile>
+    <Compile Include="Controls\LoadingSpinner2.xaml.cs"><DependentUpon>LoadingSpinner2.xaml</DependentUpon></Compile>
+    <Compile Include="Controls\SpinnerActivityMonitor.cs" />
+    <None Include="App.config" />
+    <ProjectReference Include="..\RefDataMvvm.Core\RefDataMvvm.Core.csproj">
+      <Project>{402B72D6-3328-4990-AC14-7690F5E70801}</Project>
+      <Name>RefDataMvvm.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,39 @@
+<UserControl x:Class="RefDataMvvm.Wpf.Controls.LoadingSpinner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root" Width="32" Height="32"
+             Focusable="False" IsTabStop="False" IsHitTestVisible="False"
+             UseLayoutRounding="False" SnapsToDevicePixels="False"
+             AutomationProperties.Name="로딩 중">
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <!-- 기본 UserControl의 사각 Background 대신 아래 원형 배경만 그린다. -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="UserControl">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsActivate, RelativeSource={RelativeSource Self}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <!-- 비정방형 크기에서도 Uniform으로 원형 유지. 레이아웃은 회전시키지 않는다. -->
+    <Viewbox Stretch="Uniform">
+        <Grid Width="64" Height="64" UseLayoutRounding="False" SnapsToDevicePixels="False">
+            <Ellipse Fill="{Binding Background, ElementName=Root}" />
+            <!-- 64×64 고정 좌표계. 중심 (32,32)을 기준으로 전체 점 그룹을 한 번에 회전. -->
+            <Canvas x:Name="Rotor" Width="64" Height="64"
+                    UseLayoutRounding="False" SnapsToDevicePixels="False">
+                <Canvas.RenderTransform>
+                    <RotateTransform CenterX="32" CenterY="32" />
+                </Canvas.RenderTransform>
+            </Canvas>
+        </Grid>
+    </Viewbox>
+</UserControl>

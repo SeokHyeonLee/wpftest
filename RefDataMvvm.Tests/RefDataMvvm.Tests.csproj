@@ -1,0 +1,36 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
+    <ProjectGuid>{402B72D6-3328-4990-AC14-7690F5E70803}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RefDataMvvm.Tests</RootNamespace>
+    <AssemblyName>RefDataMvvm.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>7.3</LangVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DebugSymbols Condition="'$(Configuration)' == 'Debug'">true</DebugSymbols>
+    <DebugType Condition="'$(Configuration)' == 'Debug'">full</DebugType>
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Compile Include="Program.cs" />
+    <None Include="App.config" />
+    <ProjectReference Include="..\RefDataMvvm.Core\RefDataMvvm.Core.csproj">
+      <Project>{402B72D6-3328-4990-AC14-7690F5E70801}</Project>
+      <Name>RefDataMvvm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RefDataMvvm.Wpf\RefDataMvvm.Wpf.csproj">
+      <Project>{402B72D6-3328-4990-AC14-7690F5E70802}</Project>
+      <Name>RefDataMvvm.Wpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
