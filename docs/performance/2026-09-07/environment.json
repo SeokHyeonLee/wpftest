@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-09-07T09:55:40.8160099+09:00",
+  "source_commit": "af3199bf3f20dca54f291e98ce084851ad152754",
+  "source_status": [
+    "?? tools/"
+  ],
+  "cpu": [
+    {
+      "Name": "AMD Ryzen 7 5700X3D 8-Core Processor           ",
+      "NumberOfCores": 8,
+      "NumberOfLogicalProcessors": 16
+    }
+  ],
+  "os": {
+    "Caption": "Microsoft Windows 11 Pro",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200",
+    "TotalVisibleMemorySize": 33456124
+  },
+  "power_plan": [
+    "전원 구성표 GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c  (고성능)"
+  ],
+  "warmup_seconds": 3,
+  "measurement_seconds": 6,
+  "rounds": 3,
+  "order_seed": 20260907
+}
