@@ -318,6 +318,7 @@ namespace RefDataMvvm.Tests
                         Render(content, renderPath);
                     VerifySpinnerLifecycleAndBrush(content);
                     VerifyOpacitySpinnerLifecycleAndBrush(content);
+                    VerifyDiscreteSpinnerLifecycleAndBrush(content);
                     VerifyWindowAndViewportSuspension(window, content);
                     Equal(0, errors.Messages.Count);
                 }
@@ -563,6 +564,71 @@ namespace RefDataMvvm.Tests
             }
         }
 
+        private static void VerifyDiscreteSpinnerLifecycleAndBrush(FrameworkElement content)
+        {
+            var host = FindButtonHost(Descendants<LoadingSpinner>(content).Single());
+            var input = new SpinnerInput { Active = true, Brush = Brushes.Crimson };
+            var probe = new LoadingSpinner3();
+            probe.SetBinding(LoadingSpinner3.IsActivateProperty, new Binding("Active") { Source = input });
+            probe.SetBinding(LoadingSpinner3.DotBrushProperty, new Binding("Brush") { Source = input });
+            host.Children.Add(probe);
+            try
+            {
+                Layout(content);
+                var rotor = (Canvas)probe.FindName("Rotor");
+                var rotation = (RotateTransform)rotor.RenderTransform;
+                var dots = rotor.Children.OfType<Ellipse>().ToArray();
+                Equal(8, dots.Length);
+                Equal(true, rotation.HasAnimatedProperties);
+                Near(32, rotation.CenterX);
+                Near(32, rotation.CenterY);
+                var opacities = dots.Select(d => d.Opacity).ToArray();
+
+                // Sample twice inside every one-second hold, including the repeat boundary.
+                var elapsed = Stopwatch.StartNew();
+                for (int step = 0; step <= 8; step++)
+                {
+                    foreach (int offset in new[] { 250, 650 })
+                    {
+                        int remaining = step * 1000 + offset - (int)elapsed.ElapsedMilliseconds;
+                        if (remaining > 0) PumpFor(remaining);
+                        Near((step % 8) * 45, rotation.Angle);
+                        for (int i = 0; i < dots.Length; i++) Near(opacities[i], dots[i].Opacity);
+                    }
+                }
+                input.Brush = Brushes.SeaGreen;
+                Layout(content);
+                Equal(true, dots.All(d => ReferenceEquals(Brushes.SeaGreen, d.Fill)));
+                input.Active = false;
+                Layout(content);
+                Equal(Visibility.Collapsed, probe.Visibility);
+                Equal(false, rotation.HasAnimatedProperties);
+                Near(0, rotation.Angle);
+                input.Active = true;
+                Layout(content);
+                Equal(true, rotation.HasAnimatedProperties);
+                Near(0, rotation.Angle);
+                host.Visibility = Visibility.Hidden;
+                Layout(content);
+                Equal(false, rotation.HasAnimatedProperties);
+                host.Visibility = Visibility.Visible;
+                Layout(content);
+                Equal(true, rotation.HasAnimatedProperties);
+                host.Children.Remove(probe);
+                Layout(content);
+                Equal(false, rotation.HasAnimatedProperties);
+                host.Children.Add(probe);
+                Layout(content);
+                Equal(true, rotation.HasAnimatedProperties);
+            }
+            finally
+            {
+                host.Visibility = Visibility.Visible;
+                host.Children.Remove(probe);
+                Layout(content);
+            }
+        }
+
         private static void VerifyWindowAndViewportSuspension(Window window, FrameworkElement content)
         {
             var rotating = Descendants<LoadingSpinner>(content).Single();
@@ -645,7 +711,8 @@ namespace RefDataMvvm.Tests
         private static void PumpFor(int milliseconds)
         {
             var frame = new DispatcherFrame();
-            var timer = new DispatcherTimer(DispatcherPriority.Background)
+            // Keep the bounded wait from being starved by rendering during window transitions.
+            var timer = new DispatcherTimer(DispatcherPriority.Send)
                 { Interval = TimeSpan.FromMilliseconds(milliseconds) };
             EventHandler tick = (s, e) => { timer.Stop(); frame.Continue = false; };
             timer.Tick += tick;

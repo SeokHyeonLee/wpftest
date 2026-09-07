@@ -28,11 +28,13 @@
     <Page Include="Views\CounterView.xaml"><Generator>MSBuild:Compile</Generator></Page>
     <Page Include="Controls\LoadingSpinner.xaml"><Generator>MSBuild:Compile</Generator></Page>
     <Page Include="Controls\LoadingSpinner2.xaml"><Generator>MSBuild:Compile</Generator></Page>
+    <Page Include="Controls\LoadingSpinner3.xaml"><Generator>MSBuild:Compile</Generator></Page>
     <Compile Include="App.xaml.cs"><DependentUpon>App.xaml</DependentUpon></Compile>
     <Compile Include="MainWindow.xaml.cs"><DependentUpon>MainWindow.xaml</DependentUpon></Compile>
     <Compile Include="Views\CounterView.xaml.cs"><DependentUpon>CounterView.xaml</DependentUpon></Compile>
     <Compile Include="Controls\LoadingSpinner.xaml.cs"><DependentUpon>LoadingSpinner.xaml</DependentUpon></Compile>
     <Compile Include="Controls\LoadingSpinner2.xaml.cs"><DependentUpon>LoadingSpinner2.xaml</DependentUpon></Compile>
+    <Compile Include="Controls\LoadingSpinner3.xaml.cs"><DependentUpon>LoadingSpinner3.xaml</DependentUpon></Compile>
     <Compile Include="Controls\SpinnerActivityMonitor.cs" />
     <None Include="App.config" />
     <ProjectReference Include="..\RefDataMvvm.Core\RefDataMvvm.Core.csproj">
