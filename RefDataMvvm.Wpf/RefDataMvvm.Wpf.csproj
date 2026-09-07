@@ -36,6 +36,7 @@
     <Compile Include="Controls\LoadingSpinner2.xaml.cs"><DependentUpon>LoadingSpinner2.xaml</DependentUpon></Compile>
     <Compile Include="Controls\LoadingSpinner3.xaml.cs"><DependentUpon>LoadingSpinner3.xaml</DependentUpon></Compile>
     <Compile Include="Controls\SpinnerActivityMonitor.cs" />
+    <Compile Include="Behaviors\PopupDismissBehavior.cs" />
     <None Include="App.config" />
     <ProjectReference Include="..\RefDataMvvm.Core\RefDataMvvm.Core.csproj">
       <Project>{402B72D6-3328-4990-AC14-7690F5E70801}</Project>

@@ -135,7 +135,32 @@ msbuild .\RefDataMvvm.sln /t:Build /p:Configuration=Debug /m
 .\RefDataMvvm.Tests\bin\Debug\RefDataMvvm.Tests.exe .\artifacts\preview.png
 ```
 
-테스트 12개는 공유 참조, 명시적 알림, 일관된 Model 상태, 외부 Data 변경, 두 ViewModel 동기화, 초기화/명령 활성화, ViewModel 재생성, 구독 해제, 오버플로 보호, bool 토글, 실제 XAML 바인딩을 검증합니다. WPF 테스트 안에서 좌우에 서로 다른 스피너가 하나씩 생성되는지, 대칭/고정 중심/비선형 opacity, 크기 변경, 버튼 우측 상단 배치, 색상 바인딩 갱신, 활성화/숨김/Unloaded/재로드 시 애니메이션 시작·중단도 확인합니다. LoadingSpinner2는 시간 경과에 따라 불투명도가 바뀌는 동안 점의 화면 좌표와 크기가 그대로인지 추가 검증합니다. 실패 시 종료 코드 1을 반환합니다. 콘솔 실행 방식이므로 Visual Studio Test Explorer나 `dotnet test`에 자동 등록되지는 않습니다.
+테스트 14개는 공유 참조, 명시적 알림, 일관된 Model 상태, 외부 Data 변경, 두 ViewModel 동기화, 초기화/명령 활성화, ViewModel 재생성, 구독 해제, 오버플로 보호, bool 토글, 실제 XAML 바인딩 및 아래 팝업 동작을 검증합니다. WPF 테스트 안에서 좌우에 서로 다른 스피너가 하나씩 생성되는지, 대칭/고정 중심/비선형 opacity, 크기 변경, 버튼 우측 상단 배치, 색상 바인딩 갱신, 활성화/숨김/Unloaded/재로드 시 애니메이션 시작·중단도 확인합니다. LoadingSpinner2는 시간 경과에 따라 불투명도가 바뀌는 동안 점의 화면 좌표와 크기가 그대로인지 추가 검증합니다. 실패 시 종료 코드 1을 반환합니다. 콘솔 실행 방식이므로 Visual Studio Test Explorer나 `dotnet test`에 자동 등록되지는 않습니다.
+
+## MVVM 팝업과 부분 dim
+
+상단의 **팝업 목록 ▾**를 누르면 목록이 열리고, 아래 두 카운터 패널 영역만 어두워집니다. 팝업은 dim 영역 위로 겹쳐 표시됩니다.
+
+| 팝업이 열린 상태에서 입력한 위치 | 동작 |
+| --- | --- |
+| 팝업 목록 Grid의 빈 공간 / 설명 / 버튼 사이 여백 | 유지 |
+| 목록의 `IsEnabled=false` 버튼 | 유지, 명령 실행 안 함 |
+| 목록의 활성 버튼 | 명령 실행 후 최종 상태는 닫힘 |
+| 버튼 2개와 토글을 감싸는 `PopupToolbar` Grid의 빈 공간 / 설명 | 유지 |
+| 툴바의 활성 버튼 1 / 버튼 2 | 명령 실행 후 최종 상태는 닫힘 |
+| 팝업 토글 재클릭 | 닫힘 |
+| 팝업 바깥에 드러난 dim 영역 | 닫힘, dim 아래 버튼은 실행 안 함 |
+| 두 Grid 바깥의 나머지 Window 콘텐츠 | 닫힘, 원래 컨트롤의 입력은 유지 |
+
+`PopupMenuViewModel.IsOpen`을 `ToggleButton.IsChecked`, `Popup.IsOpen`에 TwoWay 바인딩하고 dim의 `Visibility`에도 연결합니다. 목록과 실행 가능 여부, 동작 명령도 ViewModel이 제공합니다. Core에는 WPF 컨트롤, 마우스 이벤트, VisualTree 의존성이 없으며 `MainWindow.xaml.cs`는 `InitializeComponent()`만 유지합니다.
+
+`Behaviors/PopupDismissBehavior.cs`는 View 전용 Attached Behavior입니다. `Popup.StaysOpen=True`로 기본 외부 클릭 닫기와 마우스 캡처를 끄고, `KeepOpenElement`에 툴바 Grid를 지정합니다. 팝업이 열린 동안 Window의 `PreviewMouseDown`으로 외부 영역을 구분하고, Window 및 팝업 자식의 `ButtonBase.Click`을 각각 구독합니다. 이미 처리된 이벤트도 수신하며, 활성 버튼의 실제 Click만 닫기로 연결하므로 버튼 위에서 누른 뒤 드래그해 취소한 경우에는 닫히지 않습니다. 토글은 자신의 IsChecked 바인딩으로 상태를 변경합니다.
+
+외부 입력은 바인딩된 `CloseCommand`를 실행합니다. Behavior가 ViewModel을 캐스팅하거나 IsOpen 바인딩을 직접 덮어쓰지 않습니다. 데모의 동작 명령도 IsOpen을 false로 설정하므로 View 없이 명령만 실행해도 최종 상태가 일관됩니다. 실제 UI Click에서는 Behavior의 닫기 명령이 버튼 동작 명령보다 먼저 실행될 수 있습니다.
+
+Dim은 카운터 영역에만 배치한 hit-test 가능한 `Border`입니다. 별도 표시 창을 사용하는 WPF `Popup`이 dim보다 위에서 입력을 받으므로, **dim과 좌표가 겹친 팝업 안을 눌러도 dim 클릭으로 처리되지 않습니다.** 창 전체에 덮개를 올려 툴바 클릭까지 가로막지 않습니다. 닫힘·Unloaded·창 종료 시 입력 구독을 해제하고, DataContext가 먼저 해제되는 경우에도 기존 닫기 명령으로 상태를 정리합니다.
+
+팝업 통합 테스트는 실제 WPF 창을 잠깐 표시해 dim과 팝업의 화면 좌표가 겹치는지 및 별도 presentation source인지 확인합니다. WPF `InputHitTest` 결과에 라우팅된 마우스 이벤트를 전달하고 AutomationPeer로 버튼을 실행하여 빈 공간, 비활성 버튼, 활성 버튼, 처리된 이벤트, 토글 반복, 바인딩 유지, 제거/재로드/종료를 검증합니다. OS 마우스를 직접 움직여 수행하는 테스트는 아닙니다.
 
 ## LoadingSpinner: IsActivate와 DotBrush 바인딩
 

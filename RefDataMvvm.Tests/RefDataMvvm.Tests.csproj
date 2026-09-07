@@ -21,7 +21,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Xaml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
     <Compile Include="Program.cs" />
+    <Compile Include="PopupTests.cs" />
     <None Include="App.config" />
     <ProjectReference Include="..\RefDataMvvm.Core\RefDataMvvm.Core.csproj">
       <Project>{402B72D6-3328-4990-AC14-7690F5E70801}</Project>

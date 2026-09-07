@@ -19,7 +19,7 @@ using RefDataMvvm.Wpf.Controls;
 
 namespace RefDataMvvm.Tests
 {
-    internal static class Program
+    internal static partial class Program
     {
         private static int _failed;
         private static int _passed;
@@ -38,7 +38,9 @@ namespace RefDataMvvm.Tests
             Run("Counter overflow leaves Model unchanged", OverflowProtection);
             Run("Click toggles shared RefData bool; reset clears it", SpinnerToggle);
             Run("External bool changes notify; replacement VMs retain state", ExternalSpinnerChanges);
+            Run("Popup VM state, actions and disabled commands", PopupViewModel);
             Run("Real WPF XAML bindings and commands", () => WpfBindings(args.Length > 0 ? args[0] : null));
+            Run("Popup input boundaries, dim overlap, commands and lifecycle", PopupInteraction);
             Console.WriteLine("\nPassed: " + _passed + ", Failed: " + _failed);
             return _failed == 0 ? 0 : 1;
         }
@@ -287,7 +289,7 @@ namespace RefDataMvvm.Tests
                     AssertDisplayedCounts(content, "0");
                     AssertSpinners(content, false);
                     var buttons = Descendants<Button>(content).ToList();
-                    Equal(5, buttons.Count);
+                    Equal(7, buttons.Count);
                     var click = buttons.First(b => Equals(b.Content, "눌러서 +1"));
                     Equal(true, click.Command != null);
                     double originalButtonWidth = click.ActualWidth;

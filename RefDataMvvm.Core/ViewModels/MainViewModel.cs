@@ -18,6 +18,7 @@ namespace RefDataMvvm.Core.ViewModels
         }
 
         public CounterViewModel Left { get; }
+        public PopupMenuViewModel Menu { get; } = new PopupMenuViewModel();
         public CounterViewModel Right { get; private set; }
         public RelayCommand RecreateRightCommand { get; }
 

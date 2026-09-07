@@ -24,6 +24,7 @@
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="ViewModels\CounterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PopupMenuViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
