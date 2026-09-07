@@ -584,13 +584,13 @@ namespace RefDataMvvm.Tests
                 Near(32, rotation.CenterY);
                 var opacities = dots.Select(d => d.Opacity).ToArray();
 
-                // Sample twice inside every one-second hold, including the repeat boundary.
+                // Sample twice inside every 125 ms hold, including the one-second repeat boundary.
                 var elapsed = Stopwatch.StartNew();
                 for (int step = 0; step <= 8; step++)
                 {
-                    foreach (int offset in new[] { 250, 650 })
+                    foreach (int offset in new[] { 45, 85 })
                     {
-                        int remaining = step * 1000 + offset - (int)elapsed.ElapsedMilliseconds;
+                        int remaining = step * 125 + offset - (int)elapsed.ElapsedMilliseconds;
                         if (remaining > 0) PumpFor(remaining);
                         Near((step % 8) * 45, rotation.Angle);
                         for (int i = 0; i < dots.Length; i++) Near(opacities[i], dots[i].Opacity);

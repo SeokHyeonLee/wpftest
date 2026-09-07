@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 namespace RefDataMvvm.Wpf.Controls
 {
     /// <summary>
-    /// Rotates the dot group clockwise by 45 degrees once per second, without interpolation.
+    /// Rotates the dot group clockwise in eight discrete steps per second.
     /// </summary>
     public partial class LoadingSpinner3 : UserControl
     {
@@ -74,13 +74,13 @@ namespace RefDataMvvm.Wpf.Controls
         {
             var rotation = new DoubleAnimationUsingKeyFrames
             {
-                Duration = new Duration(TimeSpan.FromSeconds(DotCount)),
+                Duration = new Duration(TimeSpan.FromSeconds(1)),
                 RepeatBehavior = RepeatBehavior.Forever
             };
-            // Hold each angle for a full second; 360 and 0 coincide at the repeat boundary.
+            // Hold each angle for 1/8 second; 360 and 0 coincide at the repeat boundary.
             for (int step = 0; step <= DotCount; step++)
                 rotation.KeyFrames.Add(new DiscreteDoubleKeyFrame(
-                    step * (360.0 / DotCount), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(step))));
+                    step * (360.0 / DotCount), KeyTime.FromTimeSpan(TimeSpan.FromSeconds((double)step / DotCount))));
             rotation.Freeze();
             return rotation;
         }

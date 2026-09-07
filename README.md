@@ -208,9 +208,9 @@ public bool IsActivate { get { return _isActivate.value; } }
 - 8개 애니메이션은 공유된 frozen ParallelTimeline에서 만든 하나의 ClockGroup으로 함께 시작합니다. 숨김·Unloaded·비활성화 시 clock과 대상 속성의 애니메이션 연결을 제거하고 재표시 시 다시 시작합니다.
 - `CounterView`는 DataTemplate으로 선택한 컨트롤 하나만 생성합니다. 두 종류를 겹쳐 두고 동시에 실행하는 구조가 아닙니다. 표시 방식 선택은 Model이나 ViewModel의 업무 상태를 변경하지 않습니다.
 
-## LoadingSpinner3: 1초마다 45도씩 회전
+## LoadingSpinner3: 1초에 한 바퀴, 45도씩 단계 회전
 
-`Controls/LoadingSpinner3.xaml`과 `.xaml.cs`는 세 번째 재사용 UserControl입니다. 기존 `LoadingSpinner`와 같은 점 배치와 밝기를 사용하며, 점 그룹 전체를 시계 방향으로 **1초마다 2π/8 라디안(45도)** 회전합니다. 각 단계 사이에는 각도를 유지하며 보간하지 않습니다. 한 바퀴는 **8초**입니다.
+`Controls/LoadingSpinner3.xaml`과 `.xaml.cs`는 세 번째 재사용 UserControl입니다. 기존 `LoadingSpinner`와 같은 점 배치와 밝기를 사용하며, 점 그룹 전체를 시계 방향으로 **0.125초마다 2π/8 라디안(45도)** 회전합니다. 각 단계 사이에는 각도를 유지하며 보간하지 않습니다. 1초에 8단계 이동하여 한 바퀴는 **1초**입니다.
 
 ```xml
 <controls:LoadingSpinner3
@@ -220,7 +220,7 @@ public bool IsActivate { get { return _isActivate.value; } }
     Width="32" Height="32" />
 ```
 
-`DiscreteDoubleKeyFrame`으로 0, 45, 90, …, 315도 상태를 각각 1초간 유지합니다. 애니메이션 정의는 Freeze하여 공유합니다. `IsActivate`, `DotBrush`, 원형 `Background`, 크기 조절과 표시 상태에 따른 중단 처리는 기존 컨트롤과 같습니다. 재시작 시 0도부터 시작합니다. 기존 좌우 데모는 계속 `LoadingSpinner`와 `LoadingSpinner2`를 사용합니다.
+`DiscreteDoubleKeyFrame`으로 0, 45, 90, …, 315도 상태를 각각 0.125초간 유지합니다. 애니메이션 정의는 Freeze하여 공유합니다. `IsActivate`, `DotBrush`, 원형 `Background`, 크기 조절과 표시 상태에 따른 중단 처리는 기존 컨트롤과 같습니다. 재시작 시 0도부터 시작합니다. 기존 좌우 데모는 계속 `LoadingSpinner`와 `LoadingSpinner2`를 사용합니다.
 
 WPF 테스트에서 한 바퀴와 반복 경계의 각도 유지, 색상 바인딩 변경, 비활성화/숨김/Unloaded/재로드에 따른 애니메이션 중단과 재시작을 확인합니다.
 
